@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:stable-git
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build Docker image
+          command: docker build -t scholzj/centos-java:travis .
+      - deploy:
+          name: Login to Docker
+          command: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - deploy:
+          name: Tag docker image
+          command: docker tag scholzj/centos-java-base:travis docker.io/scholzj/centos-java-base:jdk8-latest
+      - deploy:
+          name: Push Docker image
+          command: docker push docker.io/scholzj/centos-java-base:jdk8-latest
+      - deploy:
+          name: Tag docker image
+          command: docker tag scholzj/centos-java-base:travis docker.io/scholzj/centos-java-base:latest
+      - deploy:
+          name: Push Docker image
+          command: docker push docker.io/scholzj/centos-java-base:latest
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - build:
+          context: docker-hub
+  scheduled-workflow:
+    triggers:
+      - schedule:
+          cron: "0 23 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - build:
+          context: docker-hub
