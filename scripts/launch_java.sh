@@ -3,8 +3,6 @@ set -x
 JAR=$1
 shift
 
-. /bin/dynamic_resources.sh
-
 # Make sure that we use /dev/urandom
 JAVA_OPTS="${JAVA_OPTS} -Dvertx.cacheDirBase=/tmp -Djava.security.egd=file:/dev/./urandom"
 
