@@ -14,10 +14,10 @@ jobs:
           command: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
       - deploy:
           name: Tag docker image
-          command: docker tag scholzj/centos-java-base:travis docker.io/scholzj/centos-java-base:jdk8-latest
+          command: docker tag scholzj/centos-java-base:travis docker.io/scholzj/centos-java-base:jdk11-latest
       - deploy:
           name: Push Docker image
-          command: docker push docker.io/scholzj/centos-java-base:jdk8-latest
+          command: docker push docker.io/scholzj/centos-java-base:jdk11-latest
       - deploy:
           name: Tag docker image
           command: docker tag scholzj/centos-java-base:travis docker.io/scholzj/centos-java-base:latest
