@@ -6,12 +6,12 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run:
-          name: Build Docker image
-          command: docker build -t scholzj/centos-java-base:travis .
       - deploy:
           name: Login to Docker
           command: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - run:
+          name: Build Docker image
+          command: docker build -t scholzj/centos-java-base:travis .
       - deploy:
           name: Tag docker image
           command: docker tag scholzj/centos-java-base:travis docker.io/scholzj/centos-java-base:jdk11-latest
